@@ -1,0 +1,314 @@
+{
+  "id": 1,
+  "cells": [
+    {
+      "i": "cdde4569-9e24-4149-93c6-9fa140afbbf9",
+      "x": 0,
+      "y": 0,
+      "w": 4,
+      "h": 4,
+      "name": "% Mem Used from the last hour",
+      "queries": [
+        {
+          "query": "SELECT \"used_percent\" FROM \"telegraf\".\"autogen\".\"mem\" WHERE time > now() - 15m",
+          "label": "mem.used_percent",
+          "queryConfig": {
+            "database": "telegraf",
+            "measurement": "mem",
+            "retentionPolicy": "autogen",
+            "fields": [
+              {
+                "field": "used_percent",
+                "funcs": []
+              }
+            ],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": null
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/cdde4569-9e24-4149-93c6-9fa140afbbf9"
+      }
+    },
+    {
+      "i": "f9b9d58f-ba51-4ae7-9e13-0decc7f31563",
+      "x": 8,
+      "y": 8,
+      "w": 4,
+      "h": 4,
+      "name": "# of Series by Database",
+      "queries": [
+        {
+          "query": "SELECT last(numSeries) as last_series FROM \"_internal\".\"monitor\".\"database\" WHERE time > now() - 12h GROUP BY time(1h),\"database\" fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT last(numSeries) as last_series FROM \"_internal\".\"monitor\".\"database\" WHERE time > now() - 12h GROUP BY time(1h),\"database\" fill(0)"
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/f9b9d58f-ba51-4ae7-9e13-0decc7f31563"
+      }
+    },
+    {
+      "i": "ce712f51-5e7f-408e-9fe7-02651353b5a1",
+      "x": 8,
+      "y": 4,
+      "w": 4,
+      "h": 4,
+      "name": "# of Measurements By Database",
+      "queries": [
+        {
+          "query": "SELECT last(numMeasurements) as last_measurements FROM \"_internal\".\"monitor\".\"database\" WHERE time > now() - 12h GROUP BY time(1h),\"database\" fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT last(numMeasurements) as last_measurements FROM \"_internal\".\"monitor\".\"database\" WHERE time > now() - 12h GROUP BY time(1h),\"database\" fill(0)"
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/ce712f51-5e7f-408e-9fe7-02651353b5a1"
+      }
+    },
+    {
+      "i": "b65fe12c-c8e7-45e8-8ba7-ffc83f6ae071",
+      "x": 4,
+      "y": 8,
+      "w": 4,
+      "h": 4,
+      "name": "Query and write request durations in milliseconds",
+      "queries": [
+        {
+          "query": "SELECT non_negative_derivative(max(\"queryReqDurationNs\")) / non_negative_derivative(max(\"queryReq\")) / 1000000 as queryReqDurationMs FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1h),* fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT non_negative_derivative(max(\"queryReqDurationNs\")) / non_negative_derivative(max(\"queryReq\")) / 1000000 as queryReqDurationMs FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1h),* fill(0)"
+          }
+        },
+        {
+          "query": "\nSELECT non_negative_derivative(max(\"writeReqDurationNs\")) / non_negative_derivative(max(\"writeReq\")) / 1000000 as writeReqDurationMs FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1h),* fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "\nSELECT non_negative_derivative(max(\"writeReqDurationNs\")) / non_negative_derivative(max(\"writeReq\")) / 1000000 as writeReqDurationMs FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1h),* fill(0)"
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/b65fe12c-c8e7-45e8-8ba7-ffc83f6ae071"
+      }
+    },
+    {
+      "i": "c22c3af1-8a37-4324-858b-74b0be48c4dc",
+      "x": 4,
+      "y": 4,
+      "w": 4,
+      "h": 4,
+      "name": "Avg Disk Read in Bytes Per Second Grouped by Disk",
+      "queries": [
+        {
+          "query": "SELECT NON_NEGATIVE_DERIVATIVE(mean(\"read_bytes\"), 1s) AS \"mean_read_bytes\" FROM \"telegraf\".\"autogen\".\"diskio\" WHERE time > now() - 1h GROUP BY time(1s), \"name\"",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT NON_NEGATIVE_DERIVATIVE(mean(\"read_bytes\"), 1s) AS \"mean_read_bytes\" FROM \"telegraf\".\"autogen\".\"diskio\" WHERE time > now() - 1h GROUP BY time(1s), \"name\""
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/c22c3af1-8a37-4324-858b-74b0be48c4dc"
+      }
+    },
+    {
+      "i": "847e32ca-696e-431e-a2d3-c4cd6ea9efa5",
+      "x": 4,
+      "y": 0,
+      "w": 4,
+      "h": 4,
+      "name": "Avg Disk Writes in Bytes Per Second Grouped by Disk",
+      "queries": [
+        {
+          "query": "SELECT NON_NEGATIVE_DERIVATIVE(mean(\"write_bytes\"), 1s) AS \"mean_write_bytes\" FROM \"telegraf\".\"autogen\".\"diskio\" WHERE time > now() - 1h GROUP BY time(1s), \"name\"",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT NON_NEGATIVE_DERIVATIVE(mean(\"write_bytes\"), 1s) AS \"mean_write_bytes\" FROM \"telegraf\".\"autogen\".\"diskio\" WHERE time > now() - 1h GROUP BY time(1s), \"name\""
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/847e32ca-696e-431e-a2d3-c4cd6ea9efa5"
+      }
+    },
+    {
+      "i": "28258442-36c2-4411-aae7-b61e2a301f65",
+      "x": 0,
+      "y": 4,
+      "w": 4,
+      "h": 4,
+      "name": "System and User CPU Usage % for last hour",
+      "queries": [
+        {
+          "query": "SELECT \"usage_user\", \"usage_system\" FROM \"telegraf\".\"autogen\".\"cpu\" WHERE time > now() - 15m",
+          "label": "cpu.usage_user",
+          "queryConfig": {
+            "database": "telegraf",
+            "measurement": "cpu",
+            "retentionPolicy": "autogen",
+            "fields": [
+              {
+                "field": "usage_user",
+                "funcs": []
+              },
+              {
+                "field": "usage_system",
+                "funcs": []
+              }
+            ],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": null
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/28258442-36c2-4411-aae7-b61e2a301f65"
+      }
+    },
+    {
+      "i": "ab060b23-b276-4104-b264-c8dbc1f3475b",
+      "x": 0,
+      "y": 8,
+      "w": 4,
+      "h": 4,
+      "name": "HTTP write requests per minute from the last 24 hours, grouped by minute and hostname",
+      "queries": [
+        {
+          "query": "SELECT non_negative_derivative(mean(\"writeReq\"), 1m) FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1m),\"hostname\" fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT non_negative_derivative(mean(\"writeReq\"), 1m) FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > now() - 24h GROUP BY time(1m),\"hostname\" fill(0)"
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/ab060b23-b276-4104-b264-c8dbc1f3475b"
+      }
+    },
+    {
+      "i": "6719b975-c4c7-4074-934a-634c41a6cc7c",
+      "x": 8,
+      "y": 0,
+      "w": 4,
+      "h": 4,
+      "name": "Points written per minute from the last hour, grouped by minute and hostname",
+      "queries": [
+        {
+          "query": "SELECT non_negative_derivative(mean(\"pointReq\"), 1m) FROM \"_internal\".\"monitor\".\"write\" WHERE time > now() - 1h GROUP BY time(1m),\"hostname\" fill(0)",
+          "queryConfig": {
+            "database": "",
+            "measurement": "",
+            "retentionPolicy": "",
+            "fields": [],
+            "tags": {},
+            "groupBy": {
+              "time": "",
+              "tags": []
+            },
+            "areTagsAccepted": false,
+            "rawText": "SELECT non_negative_derivative(mean(\"pointReq\"), 1m) FROM \"_internal\".\"monitor\".\"write\" WHERE time > now() - 1h GROUP BY time(1m),\"hostname\" fill(0)"
+          }
+        }
+      ],
+      "type": "line",
+      "links": {
+        "self": "/chronograf/v1/dashboards/1/cells/6719b975-c4c7-4074-934a-634c41a6cc7c"
+      }
+    }
+  ],
+  "templates": [],
+  "name": "InfluxDB Monitor",
+  "links": {
+    "self": "/chronograf/v1/dashboards/1",
+    "cells": "/chronograf/v1/dashboards/1/cells",
+    "templates": "/chronograf/v1/dashboards/1/templates"
+  }
+}
