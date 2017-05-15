@@ -1,0 +1,32 @@
+{
+  "influxURL": "http://localhost:8086",
+  "database": "load_testing",
+  "readWeight": 1,
+  "writeWeight": 50,
+  "filename": "data/myGeneratedTestData.txt",
+  "minBatchSize": 5,
+  "maxBatchSize": 10,
+  "numMeasurements": 5,
+  "minTags": 1,
+  "maxTags": 3,
+  "maxTagValueLength": 4,
+  "minFields": 1,
+  "maxFields": 4,
+  "fieldTypeWeights": [
+    {
+      "string": 40
+    },
+    {
+      "int": 25
+    },
+    {
+      "float": 25
+    },
+    {
+      "boolean": 10
+    }
+  ],
+  "maxFieldStrValueLength": 6,
+  "maxFieldNumericValue": 1000000,
+  "maxDecimalValueLength": 3
+}
